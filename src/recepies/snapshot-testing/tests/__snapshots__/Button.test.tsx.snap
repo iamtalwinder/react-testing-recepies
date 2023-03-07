@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button Component Snapshot Tests renders correctly when disabled 1`] = `
+<DocumentFragment>
+  <button
+    disabled=""
+  >
+    Click me
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Button Component Snapshot Tests renders correctly with custom color 1`] = `
+<DocumentFragment>
+  <button
+    style="background-color: blue;"
+  >
+    Click me
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Button Component Snapshot Tests renders correctly with default props 1`] = `
+<DocumentFragment>
+  <button>
+    Click me
+  </button>
+</DocumentFragment>
+`;
