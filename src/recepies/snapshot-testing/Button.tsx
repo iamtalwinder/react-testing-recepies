@@ -8,14 +8,14 @@ type ButtonProps = {
 };
 
 function Button({ text, onClick, color, disabled }: ButtonProps) {
-    return (
-        <button 
-            onClick={onClick} 
-            style={{ backgroundColor: color }} 
-            disabled={disabled}>
-            {text}
-        </button>
-    );
+  return (
+    <button
+      onClick={onClick}
+      style={{ backgroundColor: color }}
+      disabled={disabled}>
+      {text}
+    </button>
+  );
 };
 
 export default Button;
