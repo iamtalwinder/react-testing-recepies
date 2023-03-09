@@ -1,7 +1,7 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 import Form from '../Form';
 
-describe('Form Component Tests', () => {
+describe('[Testing user interactions] Form Component Tests', () => {
   test('renders input fields for username and email', () => {
     render(<Form />);
     expect(screen.getByTestId('username-input')).toBeInTheDocument();

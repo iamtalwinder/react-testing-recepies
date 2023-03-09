@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import Button from '../Button';
 
-describe('Button Component Snapshot Tests', () => {
+describe('[Snapshot testing] Button Component', () => {
   it('renders correctly with default props', () => {
     const { asFragment } = render(<Button text="Click me" />);
     expect(asFragment()).toMatchSnapshot();
