@@ -1,7 +1,9 @@
+import Countdown from './recepies/testing-with-timer/Countdown'
+
 function App() {
   return (
     <div>
-      hello
+      <Countdown initialCount={10}/>
     </div>
   );
 }
