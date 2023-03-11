@@ -1,9 +1,9 @@
-import Countdown from './recepies/testing-with-timer/Countdown'
+import DelayMessage from './recepies/testing-with-timer/DelayMessage';
 
 function App() {
   return (
     <div>
-      <Countdown initialCount={10}/>
+      <DelayMessage delay={2000} message='hello'/>
     </div>
   );
 }
