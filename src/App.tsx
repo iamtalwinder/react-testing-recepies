@@ -1,9 +1,9 @@
-import DelayMessage from './recepies/testing-with-timer/DelayMessage';
+import DebounceSearchInput from "./recepies/testing-with-timer/DebounceSearchInput";
 
 function App() {
   return (
     <div>
-      <DelayMessage delay={2000} message='hello'/>
+      <DebounceSearchInput onChange={() =>  console.log('debounce')}/>
     </div>
   );
 }
