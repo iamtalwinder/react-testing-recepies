@@ -1,9 +1,9 @@
-import DebounceSearchInput from "./recepies/testing-with-timer/DebounceSearchInput";
+import PostListAxios from "./recepies/testing-with-api-call/PostListAxios";
 
 function App() {
   return (
     <div>
-      <DebounceSearchInput onChange={() =>  console.log('debounce')}/>
+      <PostListAxios />
     </div>
   );
 }

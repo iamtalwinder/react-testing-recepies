@@ -1,0 +1,15 @@
+.active {
+  background-color: blue;
+  color: white;
+}
+
+.page-list {
+  list-style-type: none;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+.error {
+  color: red;
+}
