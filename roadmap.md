@@ -1,16 +1,16 @@
 
 
-1. **Snapshot Testing**
+1. **Snapshot Testing** -- done
    - Basic component (e.g., a Button or Header component).
    - Component with props (e.g., a List component with items).
    - Component with dynamic data (e.g., a UserCard component with user data).
 
-2. **Testing with Timer**
+2. **Testing with Timer** -- done
    - Component with a countdown timer.
    - Component that performs an action (like showing a message) after a delay.
    - Testing debounce or throttle functionality in a search input component.
 
-3. **Testing with API Call**
+3. **Testing with API Call** -- done
    - Component that fetches data from an API on mount (e.g., a PostsList component).
    - Component with pagination that fetches additional data.
    - Error handling in a component that makes an API call.
@@ -25,15 +25,14 @@
    - Component connected to Redux store (e.g., a TodoList component).
    - Async actions in Redux (e.g., fetching data and storing it in Redux).
 
-6. **Testing Effects (like useEffect)**
+6. **Testing Effects (like useEffect)** -- done
    - Component that fetches data on mount using `useEffect`.
    - Component that subscribes and unsubscribes to a service or event listener.
    - Testing cleanup effects.
 
-7. **Testing Custom Hooks**
+7. **Testing Custom Hooks** -- done
    - A custom hook for fetching data.
    - A custom hook for form handling.
-   - A custom hook that uses other hooks (like `useContext` and `useState`).
 
 8. **Testing Components with Router**
    - Testing navigation (e.g., a NavBar component with links).
