@@ -1,9 +1,9 @@
-import PostListAxios from "./recepies/testing-with-api-call/PostListAxios";
+import RouterApp from "./recepies/testing-with-router/RouterApp";
 
 function App() {
   return (
     <div>
-      <PostListAxios />
+      <RouterApp />
     </div>
   );
 }
