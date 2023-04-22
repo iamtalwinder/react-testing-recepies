@@ -15,6 +15,12 @@
       - [Purpose](#purpose)
       - [Best Practices](#best-practices)
     - [Testing with API call](#testing-with-api-call)
+      - [Overview](#overview-2)
+      - [The `PostListFetch` Component Example](#the-postlistfetch-component-example)
+      - [Test Scenarios](#test-scenarios-1)
+      - [How to Test Components with API Calls](#how-to-test-components-with-api-calls)
+      - [Purpose](#purpose-1)
+      - [Best Practices](#best-practices-1)
     - [Testing with Timer](#testing-with-timer)
     - [Testing user integractions](#testing-user-integractions)
     - [Testing with error boundaries](#testing-with-error-boundaries)
@@ -139,6 +145,173 @@ To set up the project on your local machine:
 
 
   ### Testing with API call
+
+   #### Overview
+   Testing components that make API calls involves simulating these calls and controlling their responses. This ensures that the component's behavior in response to API interactions—success, failure, or data processing—is as expected.
+
+   #### The `PostListFetch` Component Example
+
+   ```tsx
+   import { useEffect, useState } from 'react';
+   import { Post } from './Post';
+   import './PostList.css';
+
+   type Props = {
+     limit?: number;
+     page?: number;
+   };
+
+   function PostListFetch({ limit = 5, page: initialPage = 1 }: Props) {
+     const [posts, setPosts] = useState<Post[]>([]);
+     const [page, setPage] = useState<number>(initialPage);
+     const [error, setError] = useState<string>('');
+
+     useEffect(() => {
+       fetch(
+         `https://jsonplaceholder.typicode.com/posts?_limit=${limit}&_page=${page}`
+       )
+         .then((response) => {
+           if (!response.ok) {
+             throw new Error('Something went wrong!');
+           }
+           return response.json();
+         })
+         .then((data) => setPosts(data))
+         .catch((err) => setError(err.message));
+     }, [limit, page]);
+
+     const renderPageList = (start: number, end: number) => {
+       const list = [];
+
+       for (let pageNumber = start; pageNumber <= end; pageNumber++) {
+         list.push(
+           <button
+             key={pageNumber}
+             className={pageNumber === page ? 'active' : ''}
+             onClick={() => setPage(pageNumber)}
+           >
+             {pageNumber}
+           </button>
+         );
+       }
+
+       return list;
+     };
+
+     return (
+       <>
+         <div>
+           <h1>Post list</h1>
+           <ul>
+             {posts.map((post: Post) => (
+               <li key={post.id}>{[post.title]}</li>
+             ))}
+           </ul>
+         </div>
+
+         { error && <p className='error'>{error}</p>}
+
+         <div>
+           <div className="page-list">{renderPageList(1, 10)}</div>
+         </div>
+
+       </>
+     );
+   }
+
+   export default PostListFetch;
+   ```
+
+
+   ```tsx
+   import { render, waitFor, screen } from '@testing-library/react';
+   import PostListFetch from '../PostListFetch';
+
+   // Mock global fetch API
+   global.fetch = jest.fn() as jest.Mock;
+
+   const mockedFetch = fetch as jest.Mock;
+
+   describe("[Testing with API call] PostListFetch", () => {
+     beforeEach(() => {
+       mockedFetch.mockClear();
+     });
+
+     test("successfully fetches and displays posts", async () => {
+       mockedFetch.mockResolvedValueOnce({
+         ok: true,
+         json: async () => [{ id: 1, title: "Test Post" }],
+       });
+
+       render(<PostListFetch />);
+
+       await waitFor(() => {
+         expect(screen.getByText("Test Post")).toBeInTheDocument();
+       });
+     });
+
+     test("displays an error message on fetch failure", async () => {
+       mockedFetch.mockResolvedValueOnce({ ok: false });
+
+       render(<PostListFetch />);
+
+       await waitFor(() => {
+         expect(screen.getByText("Something went wrong!")).toBeInTheDocument();
+       });
+     });
+   });
+
+   ```
+
+   In the `PostListFetch` component, there are two key behaviors:
+   1. **Fetching Posts:** The component fetches a list of posts from an API.
+   2. **Error Handling:** It handles and displays errors if the fetch operation fails.
+
+   #### Test Scenarios
+
+   3. **Successful Fetch:** Tests that the component correctly fetches and displays posts.
+   4. **Fetch Failure:** Tests the component's error-handling behavior when the API call fails.
+
+   #### How to Test Components with API Calls
+
+   5. **Mocking Fetch:** The global `fetch` function is mocked using Jest. This allows you to specify custom responses for the fetch calls made by the component.
+
+      ```javascript
+      global.fetch = jest.fn() as jest.Mock;
+      ```
+
+   6. **Simulating API Responses:** For each test, `fetch` is configured to return a resolved promise with mock data or a failure status.
+
+      - Successful response:
+        ```javascript
+        mockedFetch.mockResolvedValueOnce({
+          ok: true,
+          json: async () => [{ id: 1, title: "Test Post" }],
+        });
+        ```
+
+      - Failed response:
+        ```javascript
+        mockedFetch.mockResolvedValueOnce({ ok: false });
+        ```
+
+   7. **Rendering and Assertions:** The component is rendered using `@testing-library/react`. `waitFor` and other utilities are used to assert that the component behaves as expected in response to the mocked fetch calls.
+
+   #### Purpose
+
+   - **Validate Behavior:** Ensure the component correctly handles data fetched from API calls.
+   - **Error Handling:** Verify that errors are appropriately caught and displayed.
+   - **Isolation:** Test the component in isolation without relying on actual API calls, leading to more reliable and faster tests.
+
+   #### Best Practices
+
+   - **Mock Restoration:** Reset or restore mocks before each test to prevent test interference.
+   - **Realistic Mock Data:** Use realistic mock responses for greater accuracy in tests.
+   - **Async Testing:** Use `waitFor` or similar utilities from `@testing-library/react` for testing asynchronous behavior.
+
+   By following these practices, you can effectively test React components that rely on API calls, ensuring they handle data fetching and error scenarios correctly.
+
+
   ### Testing with Timer
   ### Testing user integractions
   ### Testing with error boundaries
