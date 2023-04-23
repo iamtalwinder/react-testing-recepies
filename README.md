@@ -73,52 +73,8 @@ To set up the project on your local machine:
 
    #### The `Button` Component Example
 
-   ```tsx
-   import React from 'react';
-
-   type ButtonProps = {
-     text?: string;
-     onClick?: () => void;
-     color?: string;
-     disabled?: boolean;
-   };
-
-   function Button({ text, onClick, color, disabled }: ButtonProps) {
-     return (
-       <button
-         onClick={onClick}
-         style={{ backgroundColor: color }}
-         disabled={disabled}>
-         {text}
-       </button>
-     );
-   };
-
-   export default Button;
-   ```
-
-
-   ```tsx
-   import { render } from '@testing-library/react';
-   import Button from '../Button';
-
-   describe('[Snapshot testing] Button Component', () => {
-     it('renders correctly with default props', () => {
-       const { asFragment } = render(<Button text="Click me" />);
-       expect(asFragment()).toMatchSnapshot();
-     });
-
-     it('renders correctly with custom color', () => {
-       const { asFragment } = render(<Button text="Click me" color="blue" />);
-       expect(asFragment()).toMatchSnapshot();
-     });
-
-     it('renders correctly when disabled', () => {
-       const { asFragment } = render(<Button text="Click me" disabled />);
-       expect(asFragment()).toMatchSnapshot();
-     });
-   });
-   ```
+   [Button.tsx](src/recepies/snapshot-testing/Button.tsx)
+   [Button.test.tsx](src/recepies/snapshot-testing/tests/Button.test.tsx)
 
    In this example, a `Button` component is tested using snapshots. This component has props for text, color, onClick event, and a disabled state.
 
@@ -156,117 +112,9 @@ To set up the project on your local machine:
 
    #### The `PostListFetch` Component Example
 
-   ```tsx
-   import { useEffect, useState } from 'react';
-   import { Post } from './Post';
-   import './PostList.css';
+   [PostListFetch.tsx](src/recepies/testing-with-api-call/PostListFetch.tsx)
 
-   type Props = {
-     limit?: number;
-     page?: number;
-   };
-
-   function PostListFetch({ limit = 5, page: initialPage = 1 }: Props) {
-     const [posts, setPosts] = useState<Post[]>([]);
-     const [page, setPage] = useState<number>(initialPage);
-     const [error, setError] = useState<string>('');
-
-     useEffect(() => {
-       fetch(
-         `https://jsonplaceholder.typicode.com/posts?_limit=${limit}&_page=${page}`
-       )
-         .then((response) => {
-           if (!response.ok) {
-             throw new Error('Something went wrong!');
-           }
-           return response.json();
-         })
-         .then((data) => setPosts(data))
-         .catch((err) => setError(err.message));
-     }, [limit, page]);
-
-     const renderPageList = (start: number, end: number) => {
-       const list = [];
-
-       for (let pageNumber = start; pageNumber <= end; pageNumber++) {
-         list.push(
-           <button
-             key={pageNumber}
-             className={pageNumber === page ? 'active' : ''}
-             onClick={() => setPage(pageNumber)}
-           >
-             {pageNumber}
-           </button>
-         );
-       }
-
-       return list;
-     };
-
-     return (
-       <>
-         <div>
-           <h1>Post list</h1>
-           <ul>
-             {posts.map((post: Post) => (
-               <li key={post.id}>{[post.title]}</li>
-             ))}
-           </ul>
-         </div>
-
-         { error && <p className='error'>{error}</p>}
-
-         <div>
-           <div className="page-list">{renderPageList(1, 10)}</div>
-         </div>
-
-       </>
-     );
-   }
-
-   export default PostListFetch;
-   ```
-
-
-   ```tsx
-   import { render, waitFor, screen } from '@testing-library/react';
-   import PostListFetch from '../PostListFetch';
-
-   // Mock global fetch API
-   global.fetch = jest.fn() as jest.Mock;
-
-   const mockedFetch = fetch as jest.Mock;
-
-   describe("[Testing with API call] PostListFetch", () => {
-     beforeEach(() => {
-       mockedFetch.mockClear();
-     });
-
-     test("successfully fetches and displays posts", async () => {
-       mockedFetch.mockResolvedValueOnce({
-         ok: true,
-         json: async () => [{ id: 1, title: "Test Post" }],
-       });
-
-       render(<PostListFetch />);
-
-       await waitFor(() => {
-         expect(screen.getByText("Test Post")).toBeInTheDocument();
-       });
-     });
-
-     test("displays an error message on fetch failure", async () => {
-       mockedFetch.mockResolvedValueOnce({ ok: false });
-
-       render(<PostListFetch />);
-
-       await waitFor(() => {
-         expect(screen.getByText("Something went wrong!")).toBeInTheDocument();
-       });
-     });
-   });
-
-   ```
+   [PostListFetch.test.tsx](src/recepies/testing-with-api-call/tests/PostListFetch.test.tsx)
 
    In the `PostListFetch` component, there are two key behaviors:
    1. **Fetching Posts:** The component fetches a list of posts from an API.
@@ -325,6 +173,7 @@ To set up the project on your local machine:
    #### The `Form` Component Example
 
    [Form.tsx](src/recepies/testing-user-interactions/Form.tsx)
+
    [Form.test.tsx](src/recepies/testing-user-interactions/tests/Form.test.tsx)
 
    The `Form` component is a perfect example for this kind of testing. It includes input fields for a username and email, validation logic, and form submission handling.
