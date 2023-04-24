@@ -29,6 +29,12 @@
       - [Purpose](#purpose-2)
       - [Best Practices](#best-practices-2)
     - [Testing with Timer](#testing-with-timer)
+      - [Overview](#overview-4)
+      - [The `Countdown` Component Example](#the-countdown-component-example)
+      - [Test Scenario](#test-scenario)
+      - [How to Test Components with Timers](#how-to-test-components-with-timers)
+      - [Purpose](#purpose-3)
+      - [Best Practices](#best-practices-3)
     - [Testing with error boundaries](#testing-with-error-boundaries)
     - [Testing effects](#testing-effects)
     - [Testing custom Hooks](#testing-custom-hooks)
@@ -74,6 +80,7 @@ To set up the project on your local machine:
    #### The `Button` Component Example
 
    [Button.tsx](src/recepies/snapshot-testing/Button.tsx)
+
    [Button.test.tsx](src/recepies/snapshot-testing/tests/Button.test.tsx)
 
    In this example, a `Button` component is tested using snapshots. This component has props for text, color, onClick event, and a disabled state.
@@ -219,7 +226,59 @@ To set up the project on your local machine:
    - **Async Handling:** Use `waitFor` or similar utilities for testing asynchronous behaviors (like API calls after submission).
 
    By following these practices, you can thoroughly test the interactive parts of your React components, ensuring they handle user input and provide feedback appropriately.
+
   ### Testing with Timer
+
+  [Countdown.tsx](src/recepies/testing-with-timer/Countdown.tsx)
+
+  [Countdown.test.tsx](src/recepies/testing-with-timer/tests/Countdown.test.tsx)
+
+   #### Overview
+   Testing components with timers involves simulating time-related functionalities like delays, countdowns, or intervals. This type of testing ensures that components behave correctly over time, particularly when they depend on JavaScript's `setTimeout` or `setInterval`.
+
+   #### The `Countdown` Component Example
+   Your `Countdown` component is an ideal case for timer testing. It decrements a counter every second, demonstrating a common use of `setTimeout`.
+
+   #### Test Scenario
+
+   - **Countdown Functionality:** Ensuring the component correctly counts down from the initial value and updates the display accordingly.
+
+   #### How to Test Components with Timers
+
+   1. **Jest Fake Timers:** Use Jest's fake timers to control the passage of time in tests.
+
+      ```javascript
+      jest.useFakeTimers();
+      ```
+
+   2. **Rendering and Simulating Time:** Render the component and use `jest.advanceTimersByTime` to simulate the passage of time.
+
+      ```javascript
+      render(<Countdown initialCount={10} />);
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+      ```
+
+   3. **Asserting State Changes:** Check that the component's displayed state updates correctly as time advances.
+
+      ```javascript
+      expect(screen.getByText(`Time left: 4 seconds`)).toBeInTheDocument();
+      ```
+
+   #### Purpose
+
+   - **Time-Based Behavior:** Test how components behave as time progresses, especially when they depend on `setTimeout` or `setInterval`.
+   - **Control over Time:** Fake timers give you control over time in your tests, allowing you to simulate scenarios that would otherwise take too long in real time.
+
+   #### Best Practices
+
+   - **Clear Timers:** Always clear or reset timers after each test to avoid interference with other tests.
+   - **Use `act` for State Updates:** Wrap timer advances in `act` to ensure state updates are processed correctly.
+   - **Accurate Simulations:** Ensure the time you advance in tests accurately reflects the behavior you're trying to test.
+
+   By following these practices, you can effectively test components that rely on JavaScript timers, ensuring they respond correctly to time-based changes.
+
   ### Testing with error boundaries
   ### Testing effects
   ### Testing custom Hooks
