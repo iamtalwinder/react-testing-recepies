@@ -36,6 +36,12 @@
       - [Purpose](#purpose-3)
       - [Best Practices](#best-practices-3)
     - [Testing with error boundaries](#testing-with-error-boundaries)
+      - [Overview](#overview-5)
+      - [The `ErrorBoundary` Component Example](#the-errorboundary-component-example)
+      - [Test Scenarios](#test-scenarios-3)
+      - [How to Test Error Boundaries](#how-to-test-error-boundaries)
+      - [Purpose](#purpose-4)
+      - [Best Practices](#best-practices-4)
     - [Testing effects](#testing-effects)
     - [Testing custom Hooks](#testing-custom-hooks)
     - [Testing with router](#testing-with-router)
@@ -237,7 +243,7 @@ To set up the project on your local machine:
    Testing components with timers involves simulating time-related functionalities like delays, countdowns, or intervals. This type of testing ensures that components behave correctly over time, particularly when they depend on JavaScript's `setTimeout` or `setInterval`.
 
    #### The `Countdown` Component Example
-   Your `Countdown` component is an ideal case for timer testing. It decrements a counter every second, demonstrating a common use of `setTimeout`.
+   The `Countdown` decrements a counter every second, demonstrating a common use of `setTimeout`.
 
    #### Test Scenario
 
@@ -280,6 +286,57 @@ To set up the project on your local machine:
    By following these practices, you can effectively test components that rely on JavaScript timers, ensuring they respond correctly to time-based changes.
 
   ### Testing with error boundaries
+
+   #### Overview
+   Error boundaries in React are components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI. Testing error boundaries involves simulating errors in child components and verifying that the error boundary behaves as expected.
+
+   #### The `ErrorBoundary` Component Example
+
+   [ErrorBoundary.tsx](src/recepies/testing-with-error-boundaries/ErrorBoundary.tsx)
+
+   [ErrorBoundary.test.tsx](src/recepies/testing-with-error-boundaries/tests/ErrorBoundary.test.tsx)
+
+   The `ErrorBoundary` component provides a mechanism to gracefully handle errors in development and production environments. It displays an error message in development and a generic message in production.
+
+   #### Test Scenarios
+
+   1. **Error Display in Development:** Tests that the component displays a specific error message when an error occurs in development mode.
+   2. **Error Logging in Production:** Checks that the component logs the error and displays a generic error message in production mode.
+
+   #### How to Test Error Boundaries
+
+   3. **Mock Environment Configuration:** Use `jest.mock` to control the return value of `getAppEnv` to simulate different environments.
+
+      ```javascript
+      jest.mock('../getAppEnv', () => ({
+        getAppEnv: jest.fn(),
+      }));
+      ```
+
+   4. **Simulating Errors:** Create a test component (`ProblematicComponent`) that throws an error to trigger the error boundary.
+
+      ```javascript
+      const ProblematicComponent = () => {
+        throw new Error('Test error');
+      };
+      ```
+
+   5. **Assertions:**
+      - In development, verify that the specific error message is displayed.
+      - In production, confirm that the generic error message is shown and that `console.error` is called.
+
+   #### Purpose
+
+   - **Error Handling:** Ensure that the application provides a user-friendly response to unexpected errors.
+   - **Environment-Specific Behavior:** Verify that the error boundary behaves differently in development and production environments.
+
+   #### Best Practices
+
+   - **Console Mocking:** Temporarily mock `console.error` in tests to prevent error logs from cluttering the test output.
+   - **Resetting Mocks:** Reset or restore mocks and modules after each test to ensure clean test states.
+   - **Accessible Error Messages:** Ensure error messages are clear and helpful for both development and production users.
+
+   By carefully testing your error boundaries, you can guarantee that your application handles errors gracefully and provides a better user experience in the face of unexpected failures.
   ### Testing effects
   ### Testing custom Hooks
   ### Testing with router
