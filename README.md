@@ -43,6 +43,12 @@
       - [Purpose](#purpose-4)
       - [Best Practices](#best-practices-4)
     - [Testing effects](#testing-effects)
+      - [Overview](#overview-6)
+      - [The `WindowWidth` Component Example](#the-windowwidth-component-example)
+      - [Test Scenarios](#test-scenarios-4)
+      - [How to Test Components with Effects](#how-to-test-components-with-effects)
+      - [Purpose](#purpose-5)
+      - [Best Practices](#best-practices-5)
     - [Testing custom Hooks](#testing-custom-hooks)
     - [Testing with router](#testing-with-router)
     - [Testing contest API](#testing-contest-api)
@@ -337,7 +343,53 @@ To set up the project on your local machine:
    - **Accessible Error Messages:** Ensure error messages are clear and helpful for both development and production users.
 
    By carefully testing your error boundaries, you can guarantee that your application handles errors gracefully and provides a better user experience in the face of unexpected failures.
+
   ### Testing effects
+
+   #### Overview
+   Testing components with side effects, like those using `useEffect` for handling events or asynchronous operations, involves ensuring that these effects are triggered as expected and that the component's state updates accordingly.
+
+   #### The `WindowWidth` Component Example
+
+   [WindowWidth.tsx](src/recepies/testing-effects/WindowWidth.tsx)
+
+   [WindowWidth.test.tsx](src/recepies/testing-effects/tests/WindowWidth.test.tsx)
+
+   The `WindowWidth` component listens to window resize events and updates its state with the window's width. This is a classic example of using effects in React.
+
+   #### Test Scenarios
+
+   1. **Set Width on Resize:** Ensures the `setWidth` function is called with the new window width when a resize event occurs.
+   2. **Attach/Detach Resize Listener:** Checks that the resize listener is attached on component mount and removed on unmount.
+   3. **Update Width on Resize Event:** Verifies that the component updates its displayed width when a resize event is dispatched.
+
+   #### How to Test Components with Effects
+
+   4. **Mocking and Simulating Events:**
+      - Mock `window.addEventListener` and `window.removeEventListener`.
+      - Simulate window resize by changing `window.innerWidth` and dispatching a resize event.
+
+   5. **Testing the Resize Handler:**
+      - Create a mock `setWidth` function.
+      - Call `handleResize` with the mock `setWidth` and trigger it to see if it's called correctly.
+
+   6. **Rendering and Assertions:**
+      - Render the component and assert that event listeners are added/removed.
+      - Verify the component’s response to window resize events.
+
+   #### Purpose
+
+   - **Effect Verification:** Ensure that side effects are correctly triggered in response to events or conditions.
+   - **State Update Checks:** Confirm that the component's state is updated in response to side effects.
+
+   #### Best Practices
+
+   - **Cleanup in Tests:** Use `afterEach(cleanup)` to unmount components after each test to prevent test interference.
+   - **Mock Global Objects and Events:** Mock global objects like `window` and their methods to simulate real-world scenarios.
+   - **Async State Updates:** Use `waitFor` from `@testing-library/react` for assertions involving asynchronous state updates.
+
+   By meticulously testing the side effects in your React components, you ensure that they respond correctly to external events and manage their internal state effectively. This approach is crucial for components that interact with browser APIs or rely on external data sources.
+
   ### Testing custom Hooks
   ### Testing with router
   ### Testing contest API
