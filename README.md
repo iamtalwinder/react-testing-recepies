@@ -50,6 +50,12 @@
       - [Purpose](#purpose-5)
       - [Best Practices](#best-practices-5)
     - [Testing custom Hooks](#testing-custom-hooks)
+      - [Overview](#overview-7)
+      - [The `useFetchData` Hook Example](#the-usefetchdata-hook-example)
+      - [Test Scenarios](#test-scenarios-5)
+      - [How to Test Custom Hooks](#how-to-test-custom-hooks)
+      - [Purpose](#purpose-6)
+      - [Best Practices](#best-practices-6)
     - [Testing with router](#testing-with-router)
     - [Testing contest API](#testing-contest-api)
     - [Testing Redux](#testing-redux)
@@ -391,6 +397,52 @@ To set up the project on your local machine:
    By meticulously testing the side effects in your React components, you ensure that they respond correctly to external events and manage their internal state effectively. This approach is crucial for components that interact with browser APIs or rely on external data sources.
 
   ### Testing custom Hooks
+
+   #### Overview
+   Custom hooks in React encapsulate reusable logic and can have complex behaviors, including side effects and state management. Testing custom hooks ensures that they function correctly across different scenarios and use cases.
+
+   #### The `useFetchData` Hook Example
+
+   [useFetchData.ts](src/recepies/testing-custom-hooks/useFetchData.ts)
+
+   [useFetchData.test.ts](src/recepies/testing-custom-hooks/tests/useFetchData.ts)
+
+   The `useFetchData` hook demonstrates a common pattern: fetching data from an API, handling loading states, and dealing with errors. This makes it an excellent example for testing custom hooks.
+
+   #### Test Scenarios
+
+   1. **Successful Data Fetch:** Verifies that the hook fetches and returns data successfully.
+   2. **Error Handling:** Checks that the hook handles errors correctly during the fetch operation.
+
+   #### How to Test Custom Hooks
+
+   3. **Mocking Fetch:** Mock the global `fetch` function to control the response of network requests.
+
+      ```javascript
+      global.fetch = jest.fn();
+      ```
+
+   4. **Rendering Hook with `renderHook`:**
+      - Use `@testing-library/react-hooks`' `renderHook` to render the custom hook.
+      - Supply any necessary arguments (like the URL for the `useFetchData` hook).
+
+   5. **Simulating Scenarios and Assertions:**
+      - Mock different responses from fetch for success and error scenarios.
+      - Use `waitFor` to handle asynchronous updates.
+      - Assert that the hook returns the expected state (`data`, `loading`, `error`) for each scenario.
+
+   #### Purpose
+
+   - **Validate Hook Logic:** Ensure that the hook correctly manages state and side effects based on external interactions (like API calls).
+   - **Robustness and Reliability:** Confirm that the hook can handle various situations, including successful responses, errors, and loading states.
+
+   #### Best Practices
+
+   - **Isolate Hook Logic:** Test hooks independently from the components that might use them.
+   - **Realistic Mocks:** Use realistic data and scenarios when mocking API responses or other external dependencies.
+   - **Cleanup and Reset:** Reset or restore mocks after each test to ensure a clean state for subsequent tests.
+
+   By thoroughly testing your custom hooks, you ensure that they behave reliably and handle various real-world situations effectively. This is crucial for maintaining the integrity and robustness of your React application's logic.
   ### Testing with router
   ### Testing contest API
   ### Testing Redux
