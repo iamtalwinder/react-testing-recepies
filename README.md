@@ -57,7 +57,13 @@
       - [Purpose](#purpose-6)
       - [Best Practices](#best-practices-6)
     - [Testing with router](#testing-with-router)
-    - [Testing contest API](#testing-contest-api)
+      - [Overview](#overview-8)
+      - [The `Profile` Component Example](#the-profile-component-example)
+      - [Test Scenarios](#test-scenarios-6)
+      - [How to Test Components with React Router](#how-to-test-components-with-react-router)
+      - [Purpose](#purpose-7)
+      - [Best Practices](#best-practices-7)
+    - [Testing context API](#testing-context-api)
     - [Testing Redux](#testing-redux)
   - [Contributing](#contributing)
   - [Contact](#contact)
@@ -443,8 +449,52 @@ To set up the project on your local machine:
    - **Cleanup and Reset:** Reset or restore mocks after each test to ensure a clean state for subsequent tests.
 
    By thoroughly testing your custom hooks, you ensure that they behave reliably and handle various real-world situations effectively. This is crucial for maintaining the integrity and robustness of your React application's logic.
+
   ### Testing with router
-  ### Testing contest API
+
+   #### Overview
+   Testing components that rely on React Router involves simulating routing contexts and ensuring that components correctly respond to route changes. This includes testing components that use hooks like `useParams` to extract parameters from the route.
+
+   #### The `Profile` Component Example
+
+    [Profile.tsx](src/recepies/testing-with-router/Profile.tsx)
+
+    [Profile.test.tsx](src/recepies/testing-with-router/tests/Profile.test.tsx)
+
+   The `Profile` component fetches and displays user data based on a user ID obtained from the URL parameters. This makes it an ideal candidate for testing with React Router.
+
+   #### Test Scenarios
+
+   - **Fetching and Displaying Data:** Ensures the component fetches data based on the URL parameter and displays it correctly.
+
+   #### How to Test Components with React Router
+
+   1. **Mocking Fetch and Simulating Routes:**
+      - Mock the global `fetch` function to control the response of network requests.
+      - Use `MemoryRouter` and `Routes` from `react-router-dom` to simulate the routing context for the component.
+
+   2. **Rendering with Route Parameters:**
+      - Render the `Profile` component within `MemoryRouter` and `Routes`, providing the initial route that includes the necessary parameter.
+
+   3. **Assertions:**
+      - Mock different responses from fetch for success scenarios.
+      - Use `waitFor` from `@testing-library/react` to wait for asynchronous data fetching.
+      - Assert that the component renders the fetched data correctly.
+
+   #### Purpose
+
+   - **Route Parameter Handling:** Verify that the component correctly reads and uses route parameters.
+   - **Dynamic Data Fetching:** Ensure that the component fetches data corresponding to the route parameters and handles loading and error states.
+
+   #### Best Practices
+
+   - **Realistic Route Environment:** Use `MemoryRouter` to provide a realistic routing context for the component during testing.
+   - **Async Handling:** Use asynchronous utilities like `waitFor` for components that perform data fetching or other asynchronous operations.
+   - **Mock Cleanup:** Reset or restore mocks after each test to ensure a clean testing environment.
+
+   By applying these testing practices, you can effectively verify the integration and functionality of React Router in your components, ensuring they respond correctly to routing changes and handle route parameters as expected.
+
+  ### Testing context API
   ### Testing Redux
 
 ## Contributing
