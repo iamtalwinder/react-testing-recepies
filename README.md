@@ -64,7 +64,12 @@
       - [Purpose](#purpose-7)
       - [Best Practices](#best-practices-7)
     - [Testing context API](#testing-context-api)
-    - [Testing Redux](#testing-redux)
+      - [Overview](#overview-9)
+      - [The `ThemeSwitcher` Component Example](#the-themeswitcher-component-example)
+      - [Test Scenario](#test-scenario-1)
+      - [How to Test Components with Context API](#how-to-test-components-with-context-api)
+      - [Purpose](#purpose-8)
+      - [Best Practices](#best-practices-8)
   - [Contributing](#contributing)
   - [Contact](#contact)
 
@@ -495,7 +500,47 @@ To set up the project on your local machine:
    By applying these testing practices, you can effectively verify the integration and functionality of React Router in your components, ensuring they respond correctly to routing changes and handle route parameters as expected.
 
   ### Testing context API
-  ### Testing Redux
+
+   #### Overview
+   Testing components that use the Context API involves verifying that they correctly interact with context values and respond to context changes. This ensures that context-dependent logic and UI updates function as expected.
+
+   #### The `ThemeSwitcher` Component Example
+
+   [ThemeContext.tsx](src/recepies/testing-context-api/ThemeContext.tsx)
+
+   [ThemeSwitcher.tsx](src/recepies/testing-context-api/ThemeSwitcher.tsx)
+
+   [ThemeSwitcher.test.tsx](src/recepies/testing-context-api/tests/ThemeSwitcher.test.tsx)
+
+   The `ThemeSwitcher` component, which uses a `ThemeContext`, is an excellent example of a context-dependent component. It reads the current theme and provides a button to toggle it.
+
+   #### Test Scenario
+
+   - **Toggle Theme Functionality:** Ensures that clicking the button toggles the theme between light and dark.
+
+   #### How to Test Components with Context API
+
+   1. **Rendering within Context Provider:**
+      - Render the `ThemeSwitcher` component within the `ThemeProvider` to provide the necessary context.
+
+   2. **Simulating User Interaction:**
+      - Use `fireEvent` from `@testing-library/react` to simulate user interactions, such as clicking the button.
+
+   3. **Assertions:**
+      - After the button click, assert that the button's text content updates to reflect the new theme state.
+
+   #### Purpose
+
+   - **Context Interaction:** Verify that the component correctly reads and reacts to context values.
+   - **UI Responsiveness:** Ensure that UI updates appropriately in response to context changes.
+
+   #### Best Practices
+
+   - **Provide Necessary Context:** Always render context-dependent components within their respective context providers when testing.
+   - **User Interaction Simulation:** Simulate real user interactions as closely as possible to test the component's functionality.
+   - **Assert on UI Changes:** Focus on testing the changes in the UI and behavior of the component in response to context updates.
+
+   By following these testing practices, you can ensure that your components integrate seamlessly with the React Context API and behave as expected in different context states. This approach is crucial for components that rely heavily on context for their logic and rendering.
 
 ## Contributing
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
