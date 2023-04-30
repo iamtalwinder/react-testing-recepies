@@ -70,6 +70,13 @@
       - [How to Test Components with Context API](#how-to-test-components-with-context-api)
       - [Purpose](#purpose-8)
       - [Best Practices](#best-practices-8)
+    - [Testing Redux](#testing-redux)
+      - [Overview](#overview-10)
+      - [The `ThemeSwitcher` Component Example](#the-themeswitcher-component-example-1)
+      - [Test Scenario](#test-scenario-2)
+      - [How to Test Redux-Connected Components](#how-to-test-redux-connected-components)
+      - [Purpose](#purpose-9)
+      - [Best Practices](#best-practices-9)
   - [Contributing](#contributing)
   - [Contact](#contact)
 
@@ -541,6 +548,50 @@ To set up the project on your local machine:
    - **Assert on UI Changes:** Focus on testing the changes in the UI and behavior of the component in response to context updates.
 
    By following these testing practices, you can ensure that your components integrate seamlessly with the React Context API and behave as expected in different context states. This approach is crucial for components that rely heavily on context for their logic and rendering.
+
+  ### Testing Redux
+
+   #### Overview
+   Testing components connected to a Redux store involves verifying that they correctly interact with the store's state and dispatch actions as expected. This ensures that the Redux state management integrates properly with the component's functionality.
+
+   #### The `ThemeSwitcher` Component Example
+
+   [themeSlice.ts](src/recepies/testing-redux/features/theme/themeSlice.ts)
+
+   [ThemeSwitcher.tsx](src/recepies/testing-redux/features/theme/ThemeSwitcher.tsx)
+
+   [ThemeSwitcher.test.tsx](src/recepies/testing-redux/features/theme/tests/ThemeSwitcher.test.tsx)
+
+   The `ThemeSwitcher` component, connected to a Redux store using `useSelector` and `useDispatch`, toggles the application's theme. It's a great example to demonstrate testing Redux-connected components.
+
+   #### Test Scenario
+
+   - **Toggle Theme Functionality:** Ensures that clicking the button dispatches the action to toggle the theme and updates the button's text accordingly.
+
+   #### How to Test Redux-Connected Components
+
+   1. **Rendering with Redux Provider:**
+      - Render the `ThemeSwitcher` component within a test utility that provides the Redux store context.
+      - Ensure the Redux store is configured with the necessary reducers and initial state for the test.
+
+   2. **Simulating User Interaction:**
+      - Use `fireEvent` to simulate clicking the toggle button.
+
+   3. **Assertions:**
+      - After the button click, assert that the button's text content updates to reflect the new theme state.
+
+   #### Purpose
+
+   - **Redux Integration:** Verify that the component correctly reads state from and dispatches actions to the Redux store.
+   - **Responsive UI:** Ensure that the component updates its UI in response to Redux state changes.
+
+   #### Best Practices
+
+   - **Custom Render Utility:** Use a custom render utility that wraps components in a Redux provider with a mock or test store.
+   - **Mock Store Configuration:** Configure the mock store to reflect the state needed for each specific test.
+   - **Focus on Component Behavior:** Test how the component behaves in response to state changes, rather than testing Redux logic itself.
+
+   By following these practices, you ensure that your Redux-connected components function correctly within the context of a Redux store, responding appropriately to state changes and user interactions. This approach is essential for ensuring that your application's state management integrates seamlessly with its UI components.
 
 ## Contributing
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
