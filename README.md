@@ -469,9 +469,9 @@ To set up the project on your local machine:
 
    #### The `Profile` Component Example
 
-    [Profile.tsx](src/recepies/testing-with-router/Profile.tsx)
+   [Profile.tsx](src/recepies/testing-with-router/Profile.tsx)
 
-    [Profile.test.tsx](src/recepies/testing-with-router/tests/Profile.test.tsx)
+   [Profile.test.tsx](src/recepies/testing-with-router/tests/Profile.test.tsx)
 
    The `Profile` component fetches and displays user data based on a user ID obtained from the URL parameters. This makes it an ideal candidate for testing with React Router.
 
